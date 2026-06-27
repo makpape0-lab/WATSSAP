@@ -1,247 +1,152 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/admin/Downloads/envoi_whatsapp.html -->
+<!-- saved from url=(0058)file:///C:/Users/admin/Downloads/envoi_whatsapp%20(1).html -->
 <html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Envoi WhatsApp depuis Excel</title>
-<script src="./Envoi WhatsApp depuis Excel_files/xlsx.full.min.js.téléchargement"></script>
+<script src="./3 Envoi WhatsApp depuis Excel_files/xlsx.full.min.js.téléchargement"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: Arial, sans-serif;
-    background: #f0f4f0;
-    min-height: 100vh;
-    color: #222;
-  }
+  body { font-family: Arial, sans-serif; background: #f0f4f0; min-height: 100vh; color: #222; }
 
   header {
-    background: #1A7A3E;
-    color: white;
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    background: #1A7A3E; color: white;
+    padding: 16px 24px; display: flex; align-items: center; gap: 14px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
-
   header .logo {
-    width: 42px; height: 42px;
-    background: white;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    width: 42px; height: 42px; background: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
+  header h1 { font-size: 19px; font-weight: 700; }
+  header p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
 
-  header .logo svg { width: 26px; height: 26px; }
-
-  header h1 { font-size: 20px; font-weight: 700; }
-  header p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
-
-  .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
 
   .card {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    background: white; border-radius: 12px; padding: 20px;
+    margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
+  .card h2 { font-size: 14px; color: #1A7A3E; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-  .card h2 {
-    font-size: 15px;
-    color: #1A7A3E;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
+  /* Upload */
   .upload-zone {
-    border: 2px dashed #a5d6b0;
-    border-radius: 10px;
-    padding: 36px 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #f9fdf9;
+    border: 2px dashed #a5d6b0; border-radius: 10px; padding: 28px 20px;
+    text-align: center; cursor: pointer; transition: all 0.2s; background: #f9fdf9;
   }
-
   .upload-zone:hover, .upload-zone.drag { border-color: #1A7A3E; background: #e8f5e9; }
   .upload-zone input { display: none; }
-
-  .upload-zone .icon { font-size: 40px; margin-bottom: 10px; }
-  .upload-zone p { color: #555; font-size: 14px; }
+  .upload-zone .icon { font-size: 36px; margin-bottom: 8px; }
+  .upload-zone p { color: #555; font-size: 13px; }
   .upload-zone span { color: #1A7A3E; font-weight: 600; }
 
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+  /* Toolbar */
+  .toolbar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 14px;
   }
 
-  .stat {
-    background: white;
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  .btn {
+    border: none; border-radius: 8px; padding: 9px 16px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 7px; transition: all 0.15s;
   }
-
-  .stat .num { font-size: 28px; font-weight: 700; color: #1A7A3E; }
-  .stat .lbl { font-size: 12px; color: #777; margin-top: 4px; }
-
-  .stat.sent .num { color: #1A7A3E; }
-  .stat.pending .num { color: #E67E22; }
-  .stat.total .num { color: #333; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn-green { background: #1A7A3E; color: white; }
+  .btn-green:hover:not(:disabled) { background: #145f30; }
+  .btn-orange { background: #E67E22; color: white; }
+  .btn-orange:hover:not(:disabled) { background: #ca6f1e; }
+  .btn-red { background: #C0392B; color: white; }
+  .btn-red:hover:not(:disabled) { background: #a93226; }
+  .btn-gray { background: #6c757d; color: white; }
+  .btn-gray:hover:not(:disabled) { background: #5a6268; }
+  .btn-outline {
+    background: white; color: #1A7A3E;
+    border: 1.5px solid #1A7A3E;
   }
+  .btn-outline:hover:not(:disabled) { background: #e8f5e9; }
 
-  th {
-    background: #1A7A3E;
-    color: white;
-    padding: 10px 12px;
-    text-align: left;
-    font-weight: 600;
+  .btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat { background: white; border-radius: 10px; padding: 14px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .stat .num { font-size: 26px; font-weight: 700; }
+  .stat .lbl { font-size: 11px; color: #777; margin-top: 3px; }
+  .stat.s-total .num { color: #333; }
+  .stat.s-sent .num { color: #1A7A3E; }
+  .stat.s-pending .num { color: #E67E22; }
+  .stat.s-pct .num { color: #2980B9; }
+
+  /* Progress */
+  .progress-wrap { margin-bottom: 14px; display: none; }
+  .progress-bar { height: 8px; background: #ddd; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #25D366; border-radius: 4px; transition: width 0.3s; width: 0%; }
+  .progress-label { font-size: 12px; color: #555; margin-top: 5px; }
+
+  /* Alert */
+  .alert {
+    border-radius: 8px; padding: 10px 14px; font-size: 13px;
+    display: flex; gap: 8px; align-items: flex-start; margin-bottom: 12px;
   }
+  .alert-info { background: #e8f5e9; border: 1px solid #a5d6b0; color: #2d6a3f; }
+  .alert-warn { background: #fff3cd; border: 1px solid #ffc107; color: #856404; }
+  .alert-success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
 
-  th:first-child { border-radius: 6px 0 0 0; }
-  th:last-child { border-radius: 0 6px 0 0; }
-
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-  }
-
+  /* Table */
+  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid #e0e0e0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1A7A3E; color: white; padding: 10px 12px; text-align: left; font-weight: 600; white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
   tr:nth-child(even) td { background: #f9fdf9; }
-  tr:hover td { background: #e8f5e9; }
+  tr.sent-row td { opacity: 0.65; }
+  tr:hover td { background: #e8f5e9 !important; }
 
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  .badge.sent { background: #d4edda; color: #155724; }
-  .badge.pending { background: #fff3cd; color: #856404; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-sent { background: #d4edda; color: #155724; }
+  .badge-pending { background: #fff3cd; color: #856404; }
 
   .btn-wa {
-    background: #25D366;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.15s;
-    white-space: nowrap;
+    background: #25D366; color: white; border: none; border-radius: 20px;
+    padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s; white-space: nowrap;
   }
-
   .btn-wa:hover { background: #1ebe5d; }
   .btn-wa:disabled { background: #aaa; cursor: default; }
+  .btn-wa svg { width: 13px; height: 13px; fill: white; }
 
-  .btn-wa svg { width: 14px; height: 14px; fill: white; }
-
-  .btn-all {
-    background: #1A7A3E;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: background 0.15s;
-    margin-bottom: 20px;
+  .btn-undo {
+    background: none; border: 1px solid #aaa; border-radius: 20px;
+    padding: 4px 10px; font-size: 11px; color: #666; cursor: pointer;
   }
+  .btn-undo:hover { background: #f0f0f0; }
 
-  .btn-all:hover { background: #145f30; }
-  .btn-all:disabled { background: #aaa; cursor: default; }
+  .msg-preview { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #444; }
 
-  .btn-all svg { width: 20px; height: 20px; fill: white; }
-
-  .info-box {
-    background: #e8f5e9;
-    border: 1px solid #a5d6b0;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #2d6a3f;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    margin-bottom: 20px;
+  /* Filter tabs */
+  .filter-tabs { display: flex; gap: 4px; margin-bottom: 12px; }
+  .ftab {
+    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1.5px solid #ddd; background: white; color: #666;
+    transition: all 0.15s;
   }
-
-  .info-box .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-
-  .msg-preview {
-    max-width: 260px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #444;
-  }
+  .ftab.active { background: #1A7A3E; color: white; border-color: #1A7A3E; }
 
   #table-section { display: none; }
 
-  .delay-note {
-    font-size: 12px;
-    color: #888;
-    margin-top: 8px;
+  .file-info {
+    font-size: 12px; color: #777; margin-top: 6px; text-align: center;
   }
 
-  .progress-bar {
-    height: 6px;
-    background: #ddd;
-    border-radius: 3px;
-    margin-top: 8px;
-    overflow: hidden;
-    display: none;
-  }
-
-  .progress-bar .fill {
-    height: 100%;
-    background: #25D366;
-    border-radius: 3px;
-    transition: width 0.3s;
-    width: 0%;
-  }
-
-  .counter-badge {
-    background: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffc107;
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 13px;
-    margin-bottom: 12px;
-    display: none;
-  }
+  .separator { width: 1px; height: 32px; background: #ddd; margin: 0 4px; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <svg viewBox="0 0 24 24" fill="#1A7A3E" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="#1A7A3E"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
   </div>
   <div>
     <h1>Envoi WhatsApp depuis Excel</h1>
@@ -251,331 +156,357 @@
 
 <div class="container">
 
+  <!-- Upload -->
   <div class="card">
     <h2>📂 Importer le fichier Excel</h2>
     <div class="upload-zone" id="drop-zone" onclick="document.getElementById(&#39;file-input&#39;).click()">
       <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
       <div class="icon">📊</div>
-      <p>Glissez votre fichier Excel ici ou <span>cliquez pour parcourir</span></p>
-      <p style="font-size:12px; color:#999; margin-top:8px;">Format accepté : .xlsx — Colonnes : N° | Nom | Numéro | Message</p>
+      <p>Glissez votre fichier Excel ici ou <span>cliquez pour parcourir depuis votre PC</span></p>
+      <p style="font-size:11px; color:#999; margin-top:6px;">Format : .xlsx — Colonnes attendues : N° | Nom | Numéro | Message</p>
     </div>
+    <p class="file-info" id="file-info">✅ Fichier chargé : "message grouper sur watssapp.xlsx" — 18 ligne(s) importée(s)</p>
   </div>
 
+  <!-- Main section -->
   <div id="table-section" style="display: block;">
 
+    <!-- Stats -->
     <div class="stats">
-      <div class="stat total">
-        <div class="num" id="stat-total">18</div>
-        <div class="lbl">Total messages</div>
-      </div>
-      <div class="stat sent">
-        <div class="num" id="stat-sent">18</div>
-        <div class="lbl">Envoyés</div>
-      </div>
-      <div class="stat pending">
-        <div class="num" id="stat-pending">0</div>
-        <div class="lbl">En attente</div>
-      </div>
+      <div class="stat s-total"><div class="num" id="st-total">18</div><div class="lbl">Total</div></div>
+      <div class="stat s-sent"><div class="num" id="st-sent">0</div><div class="lbl">Envoyés ✓</div></div>
+      <div class="stat s-pending"><div class="num" id="st-pending">18</div><div class="lbl">En attente</div></div>
+      <div class="stat s-pct"><div class="num" id="st-pct">0%</div><div class="lbl">Progression</div></div>
     </div>
 
-    <div class="info-box">
-      <span class="icon">ℹ️</span>
-      <span>WhatsApp s'ouvrira avec le message pré-rempli. Appuyez sur <strong>Envoyer</strong> dans WhatsApp pour chaque message. L'envoi automatique complet n'est pas possible sans l'API Business.</span>
+    <!-- Info -->
+    <div class="alert alert-info" id="alert-main">
+      <span>ℹ️</span>
+      <span>WhatsApp s'ouvre avec le message pré-rempli. Appuyez sur <strong>Envoyer</strong> dans WhatsApp pour chaque message.</span>
     </div>
 
-    <div class="counter-badge" id="counter-badge" style="display: block; background: rgb(212, 237, 218); color: rgb(21, 87, 36); border-color: rgb(195, 230, 203);">✅ Terminé ! 18 messages envoyés.</div>
+    <!-- Progress -->
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-label" id="progress-label"></div>
+    </div>
 
-    <button class="btn-all" id="btn-all" onclick="sendAll()">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-      Envoyer tous les messages en attente
-    </button>
-    <div class="progress-bar" id="progress-bar" style="display: block;"><div class="fill" id="progress-fill" style="width: 100%;"></div></div>
-    <p class="delay-note" id="delay-note"></p>
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button class="btn btn-green" id="btn-send-all" onclick="sendAll()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+        Envoyer tous les messages en attente
+      </button>
 
-    <div class="card" style="padding: 0; overflow: hidden;">
-      <table id="msg-table">
+      <div class="separator"></div>
+
+      <button class="btn btn-orange" onclick="confirmReset(&#39;pending&#39;)" title="Remettre en attente les messages envoyés">
+        🔄 Réinitialiser les envoyés
+      </button>
+
+      <button class="btn btn-red" onclick="confirmReset(&#39;all&#39;)" title="Tout réinitialiser et recharger">
+        🗑️ Tout réinitialiser
+      </button>
+
+      <div class="separator"></div>
+
+      <button class="btn btn-outline" onclick="document.getElementById(&#39;file-input&#39;).click()">
+        📂 Changer de fichier
+      </button>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="setFilter(&#39;all&#39;, this)">Tous <span id="f-all">18</span></button>
+      <button class="ftab" onclick="setFilter(&#39;pending&#39;, this)">En attente <span id="f-pending">18</span></button>
+      <button class="ftab" onclick="setFilter(&#39;sent&#39;, this)">Envoyés <span id="f-sent">0</span></button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table>
         <thead>
           <tr>
-            <th>N°</th>
+            <th style="width:44px;">N°</th>
             <th>Nom</th>
             <th>Numéro</th>
             <th>Message</th>
-            <th>Statut</th>
-            <th>Action</th>
+            <th style="width:100px;">Statut</th>
+            <th style="width:160px;">Action</th>
           </tr>
         </thead>
         <tbody id="table-body"><tr id="row-0">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">1</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">1</td>
       <td><strong>2214411633</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="sow">sow</div></td>
-      <td id="status-0"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-0" onclick="sendOne(0)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-0">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-0">
+        <button class="btn-wa" onclick="sendOne(0)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-1">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">2</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">2</td>
       <td><strong>22782568248</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ba">ba</div></td>
-      <td id="status-1"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-1" onclick="sendOne(1)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-1">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-1">
+        <button class="btn-wa" onclick="sendOne(1)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-2">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">3</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">3</td>
       <td><strong>787870041</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="gaye">gaye</div></td>
-      <td id="status-2"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-2" onclick="sendOne(2)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-2">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-2">
+        <button class="btn-wa" onclick="sendOne(2)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-3">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">4</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">4</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ndiaye">ndiaye</div></td>
-      <td id="status-3"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-3" onclick="sendOne(3)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-3">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-3">
+        <button class="btn-wa" onclick="sendOne(3)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-4">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">5</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">5</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ndoye">ndoye</div></td>
-      <td id="status-4"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-4" onclick="sendOne(4)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-4">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-4">
+        <button class="btn-wa" onclick="sendOne(4)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-5">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">6</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">6</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ablaye">ablaye</div></td>
-      <td id="status-5"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-5" onclick="sendOne(5)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-5">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-5">
+        <button class="btn-wa" onclick="sendOne(5)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-6">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">7</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">7</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="sow">sow</div></td>
-      <td id="status-6"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-6" onclick="sendOne(6)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-6">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-6">
+        <button class="btn-wa" onclick="sendOne(6)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-7">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">8</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">8</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ba">ba</div></td>
-      <td id="status-7"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-7" onclick="sendOne(7)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-7">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-7">
+        <button class="btn-wa" onclick="sendOne(7)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-8">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">9</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">9</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="gaye">gaye</div></td>
-      <td id="status-8"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-8" onclick="sendOne(8)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-8">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-8">
+        <button class="btn-wa" onclick="sendOne(8)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-9">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">10</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">10</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ndiaye">ndiaye</div></td>
-      <td id="status-9"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-9" onclick="sendOne(9)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-9">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-9">
+        <button class="btn-wa" onclick="sendOne(9)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-10">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">11</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">11</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ndoye">ndoye</div></td>
-      <td id="status-10"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-10" onclick="sendOne(10)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-10">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-10">
+        <button class="btn-wa" onclick="sendOne(10)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-11">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">12</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">12</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ablaye">ablaye</div></td>
-      <td id="status-11"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-11" onclick="sendOne(11)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-11">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-11">
+        <button class="btn-wa" onclick="sendOne(11)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-12">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">13</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">13</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="sow">sow</div></td>
-      <td id="status-12"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-12" onclick="sendOne(12)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-12">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-12">
+        <button class="btn-wa" onclick="sendOne(12)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-13">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">14</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">14</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ba">ba</div></td>
-      <td id="status-13"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-13" onclick="sendOne(13)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-13">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-13">
+        <button class="btn-wa" onclick="sendOne(13)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-14">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">15</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">15</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="gaye">gaye</div></td>
-      <td id="status-14"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-14" onclick="sendOne(14)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-14">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-14">
+        <button class="btn-wa" onclick="sendOne(14)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-15">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">16</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">16</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ndiaye">ndiaye</div></td>
-      <td id="status-15"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-15" onclick="sendOne(15)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-15">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-15">
+        <button class="btn-wa" onclick="sendOne(15)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-16">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">17</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">17</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ndoye">ndoye</div></td>
-      <td id="status-16"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-16" onclick="sendOne(16)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-16">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-16">
+        <button class="btn-wa" onclick="sendOne(16)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr><tr id="row-17">
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">18</td>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">18</td>
       <td><strong>784306262</strong></td>
-      <td style="font-family:monospace; font-size:12px;">bonjours cher(es) Clients</td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">bonjours cher(es) Clients</td>
       <td><div class="msg-preview" title="ablaye">ablaye</div></td>
-      <td id="status-17"><span class="badge sent">✓ Envoyé</span></td>
-      <td>
-        <button class="btn-wa" id="btn-17" onclick="sendOne(17)" disabled="" style="background: rgb(170, 170, 170);">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
-          Envoyer
-        </button>
+      <td id="status-17">
+        <span class="badge badge-pending">En attente</span>
+      </td>
+      <td id="action-17">
+        <button class="btn-wa" onclick="sendOne(17)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg> Envoyer</button>
       </td>
     </tr></tbody>
       </table>
     </div>
 
   </div>
+</div>
 
+<!-- Confirm modal -->
+<div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:100; display:none; align-items:center; justify-content:center;">
+  <div style="background:white; border-radius:14px; padding:28px 28px 22px; max-width:380px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+    <div style="font-size:36px; margin-bottom:12px;" id="modal-icon">⚠️</div>
+    <h3 style="font-size:16px; margin-bottom:8px;" id="modal-title">Confirmer</h3>
+    <p style="font-size:13px; color:#555; margin-bottom:20px;" id="modal-msg">Êtes-vous sûr ?</p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button class="btn btn-gray" onclick="closeModal()" style="padding:9px 20px;">Annuler</button>
+      <button class="btn btn-red" id="modal-confirm-btn" style="padding:9px 20px;">Confirmer</button>
+    </div>
+  </div>
 </div>
 
 <script>
 let rows = [];
-let sentCount = 0;
+let currentFilter = 'all';
+const WA_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>`;
 
+// Drag & drop
 const dropZone = document.getElementById('drop-zone');
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('drag');
-  handleFile(e.dataTransfer.files[0]);
-});
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag'); handleFile(e.dataTransfer.files[0]); });
 
 function handleFile(file) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
-    const wb = XLSX.read(e.target.result, { type: 'array' });
-    const ws = wb.Sheets[wb.SheetNames[0]];
-    const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+    try {
+      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-    rows = [];
-    for (let i = 1; i < data.length; i++) {
-      const r = data[i];
-      if (!r || r.length < 4) continue;
-      const num = String(r[2] || '').replace(/\s/g, '');
-      const msg = String(r[3] || '').trim();
-      if (!num || !msg) continue;
-      rows.push({
-        index: i,
-        num_display: String(r[2] || ''),
-        num: num.replace('+', ''),
-        nom: String(r[1] || ''),
-        message: msg,
-        sent: false
-      });
+      const newRows = [];
+      for (let i = 1; i < data.length; i++) {
+        const r = data[i];
+        if (!r || r.length < 4) continue;
+        const numRaw = String(r[2] || '').trim();
+        const msg = String(r[3] || '').trim();
+        if (!numRaw || !msg) continue;
+        newRows.push({
+          num_display: numRaw,
+          num: numRaw.replace(/[\s\-\(\)\+]/g, '').replace(/^00/, ''),
+          nom: String(r[1] || '').trim(),
+          message: msg,
+          sent: false
+        });
+      }
+
+      if (newRows.length === 0) {
+        alert('Aucune donnée trouvée. Vérifiez que votre fichier a bien les colonnes : N° | Nom | Numéro | Message');
+        return;
+      }
+
+      rows = newRows;
+      currentFilter = 'all';
+      document.getElementById('file-info').textContent = `✅ Fichier chargé : "${file.name}" — ${rows.length} ligne(s) importée(s)`;
+      document.getElementById('table-section').style.display = 'block';
+      renderTable();
+      updateStats();
+      setFilter('all', document.querySelector('.ftab'));
+      document.getElementById('table-section').scrollIntoView({ behavior: 'smooth' });
+      // Reset file input so same file can be reloaded
+      document.getElementById('file-input').value = '';
+    } catch(err) {
+      alert('Erreur lors de la lecture du fichier : ' + err.message);
     }
-
-    if (rows.length === 0) {
-      alert("Aucune donnée trouvée. Vérifiez que votre fichier a bien les colonnes : N° | Nom | Numéro | Message");
-      return;
-    }
-
-    sentCount = 0;
-    renderTable();
-    updateStats();
-    document.getElementById('table-section').style.display = 'block';
-    document.getElementById('table-section').scrollIntoView({ behavior: 'smooth' });
   };
   reader.readAsArrayBuffer(file);
 }
@@ -583,20 +514,35 @@ function handleFile(file) {
 function renderTable() {
   const tbody = document.getElementById('table-body');
   tbody.innerHTML = '';
-  rows.forEach((r, i) => {
+  const filtered = rows.map((r, i) => ({ ...r, i })).filter(r => {
+    if (currentFilter === 'sent') return r.sent;
+    if (currentFilter === 'pending') return !r.sent;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:#999;">Aucun message dans cette catégorie</td></tr>`;
+    return;
+  }
+
+  filtered.forEach(r => {
     const tr = document.createElement('tr');
-    tr.id = 'row-' + i;
+    if (r.sent) tr.classList.add('sent-row');
+    tr.id = 'row-' + r.i;
     tr.innerHTML = `
-      <td style="text-align:center; font-weight:600; color:#1A7A3E;">${i + 1}</td>
-      <td><strong>${escHtml(r.nom)}</strong></td>
-      <td style="font-family:monospace; font-size:12px;">${escHtml(r.num_display)}</td>
-      <td><div class="msg-preview" title="${escHtml(r.message)}">${escHtml(r.message)}</div></td>
-      <td id="status-${i}"><span class="badge pending">En attente</span></td>
-      <td>
-        <button class="btn-wa" id="btn-${i}" onclick="sendOne(${i})">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Envoyer
-        </button>
+      <td style="text-align:center; font-weight:700; color:#1A7A3E;">${r.i + 1}</td>
+      <td><strong>${esc(r.nom)}</strong></td>
+      <td style="font-family:monospace; font-size:12px; white-space:nowrap;">${esc(r.num_display)}</td>
+      <td><div class="msg-preview" title="${esc(r.message)}">${esc(r.message)}</div></td>
+      <td id="status-${r.i}">
+        ${r.sent
+          ? '<span class="badge badge-sent">✓ Envoyé</span>'
+          : '<span class="badge badge-pending">En attente</span>'}
+      </td>
+      <td id="action-${r.i}">
+        ${r.sent
+          ? `<button class="btn-undo" onclick="undoOne(${r.i})">↩ Remettre</button>`
+          : `<button class="btn-wa" onclick="sendOne(${r.i})">${WA_SVG} Envoyer</button>`}
       </td>
     `;
     tbody.appendChild(tr);
@@ -607,65 +553,144 @@ function sendOne(i) {
   const r = rows[i];
   const url = `https://wa.me/${r.num}?text=${encodeURIComponent(r.message)}`;
   window.open(url, '_blank');
-  markSent(i);
-}
-
-function markSent(i) {
   rows[i].sent = true;
-  document.getElementById('status-' + i).innerHTML = '<span class="badge sent">✓ Envoyé</span>';
-  const btn = document.getElementById('btn-' + i);
-  if (btn) { btn.disabled = true; btn.style.background = '#aaa'; }
-  sentCount++;
+  updateRow(i);
   updateStats();
 }
 
+function undoOne(i) {
+  rows[i].sent = false;
+  updateRow(i);
+  updateStats();
+}
+
+function updateRow(i) {
+  const r = rows[i];
+  const statusEl = document.getElementById('status-' + i);
+  const actionEl = document.getElementById('action-' + i);
+  const rowEl = document.getElementById('row-' + i);
+  if (!statusEl) { renderTable(); return; }
+
+  statusEl.innerHTML = r.sent
+    ? '<span class="badge badge-sent">✓ Envoyé</span>'
+    : '<span class="badge badge-pending">En attente</span>';
+
+  actionEl.innerHTML = r.sent
+    ? `<button class="btn-undo" onclick="undoOne(${i})">↩ Remettre</button>`
+    : `<button class="btn-wa" onclick="sendOne(${i})">${WA_SVG} Envoyer</button>`;
+
+  if (rowEl) {
+    rowEl.classList.toggle('sent-row', r.sent);
+    if (currentFilter !== 'all') {
+      const keep = (currentFilter === 'sent') === r.sent;
+      if (!keep) rowEl.style.display = 'none';
+    }
+  }
+}
+
 async function sendAll() {
-  const pending = rows.filter((r, i) => !r.sent).map((r, i) => rows.indexOf(r));
+  const pending = rows.map((r, i) => i).filter(i => !rows[i].sent);
   if (pending.length === 0) { alert('Tous les messages ont déjà été envoyés !'); return; }
 
-  const btn = document.getElementById('btn-all');
+  const btn = document.getElementById('btn-send-all');
   btn.disabled = true;
-
-  const bar = document.getElementById('progress-bar');
-  bar.style.display = 'block';
-
-  const counter = document.getElementById('counter-badge');
-  counter.style.display = 'block';
-
-  const delayNote = document.getElementById('delay-note');
-  delayNote.textContent = `Envoi de ${pending.length} messages... WhatsApp s'ouvre pour chaque message.`;
+  const pw = document.getElementById('progress-wrap');
+  pw.style.display = 'block';
 
   for (let k = 0; k < pending.length; k++) {
     const i = pending[k];
-    counter.textContent = `⏳ Envoi ${k + 1} sur ${pending.length} — ${rows[i].nom}`;
+    document.getElementById('progress-label').textContent =
+      `Envoi ${k + 1} / ${pending.length} — ${rows[i].nom}`;
+    document.getElementById('progress-fill').style.width =
+      Math.round(((k + 1) / pending.length) * 100) + '%';
     sendOne(i);
-    const pct = Math.round(((k + 1) / pending.length) * 100);
-    document.getElementById('progress-fill').style.width = pct + '%';
     if (k < pending.length - 1) await sleep(2500);
   }
 
-  counter.textContent = `✅ Terminé ! ${pending.length} messages envoyés.`;
-  counter.style.background = '#d4edda';
-  counter.style.color = '#155724';
-  counter.style.borderColor = '#c3e6cb';
-  delayNote.textContent = '';
+  document.getElementById('progress-label').textContent =
+    `✅ Terminé ! ${pending.length} messages envoyés.`;
   btn.disabled = false;
 }
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+// Réinitialisation
+function confirmReset(type) {
+  const modal = document.getElementById('modal-overlay');
+  const title = document.getElementById('modal-title');
+  const msg = document.getElementById('modal-msg');
+  const confirmBtn = document.getElementById('modal-confirm-btn');
+
+  if (type === 'pending') {
+    document.getElementById('modal-icon').textContent = '🔄';
+    title.textContent = 'Réinitialiser les envoyés ?';
+    msg.textContent = 'Les messages marqués "Envoyé" seront remis en attente. Vous pourrez les renvoyer.';
+    confirmBtn.className = 'btn btn-orange';
+    confirmBtn.textContent = 'Oui, remettre en attente';
+    confirmBtn.onclick = () => { resetSent(); closeModal(); };
+  } else {
+    document.getElementById('modal-icon').textContent = '🗑️';
+    title.textContent = 'Tout réinitialiser ?';
+    msg.textContent = 'Tous les statuts seront effacés et la liste sera vidée. Vous devrez recharger votre fichier Excel.';
+    confirmBtn.className = 'btn btn-red';
+    confirmBtn.textContent = 'Oui, tout effacer';
+    confirmBtn.onclick = () => { resetAll(); closeModal(); };
+  }
+
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+}
+
+function resetSent() {
+  rows.forEach(r => r.sent = false);
+  document.getElementById('progress-wrap').style.display = 'none';
+  renderTable();
+  updateStats();
+}
+
+function resetAll() {
+  rows = [];
+  document.getElementById('table-section').style.display = 'none';
+  document.getElementById('file-info').textContent = '';
+  document.getElementById('progress-wrap').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Filtres
+function setFilter(type, el) {
+  currentFilter = type;
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+}
 
 function updateStats() {
   const total = rows.length;
   const sent = rows.filter(r => r.sent).length;
   const pending = total - sent;
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-sent').textContent = sent;
-  document.getElementById('stat-pending').textContent = pending;
+  const pct = total > 0 ? Math.round((sent / total) * 100) : 0;
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-sent').textContent = sent;
+  document.getElementById('st-pending').textContent = pending;
+  document.getElementById('st-pct').textContent = pct + '%';
+  document.getElementById('f-all').textContent = total;
+  document.getElementById('f-sent').textContent = sent;
+  document.getElementById('f-pending').textContent = pending;
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
 </script>
 
 
